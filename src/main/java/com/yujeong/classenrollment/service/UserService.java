@@ -14,6 +14,7 @@ public class UserService {
     public User saveUser(User user) {
         return userRepository.save(user);
     }
+
     //유저 조회
     public User getUser(Long userId) {
         return userRepository.findById(userId)
