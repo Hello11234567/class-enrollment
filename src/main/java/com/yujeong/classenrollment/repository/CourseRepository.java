@@ -23,6 +23,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     //동시성 제어
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT c FROM Course c WHERE c.id == :id")
+    @Query("SELECT c FROM Course c WHERE c.id = :id")
     Optional<Course> findByWithLock(@Param("id") Long id);
 }
