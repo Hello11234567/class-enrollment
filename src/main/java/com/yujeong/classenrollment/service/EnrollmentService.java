@@ -72,6 +72,7 @@ public class EnrollmentService {
 
         if (enrollment.getStatus() == EnrollmentStatus.PENDING) {
             enrollment.setStatus(EnrollmentStatus.CONFIRMED);
+            enrollment.setConfirmedAt(LocalDateTime.now());
 
             return enrollmentRepository.save(enrollment);
         } else {
@@ -85,14 +86,19 @@ public class EnrollmentService {
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
                 .orElseThrow(() -> new RuntimeException("수강 신청 정보를 찾을 수 없습니다."));
 
-        if (enrollment.getStatus() == EnrollmentStatus.CONFIRMED) {
+        if (enrollment.getStatus() == EnrollmentStatus.PENDING) {
             enrollment.setStatus(EnrollmentStatus.CANCELLED);
 
             return enrollmentRepository.save(enrollment);
-        } else {
-            throw new RuntimeException("취소가 되지 않았습니다.");
+        } else if (enrollment.getStatus() == EnrollmentStatus.CONFIRMED) {
+            if (enrollment.getConfirmedAt().plusDays(7).isAfter(LocalDateTime.now())) {
+                enrollment.setStatus(EnrollmentStatus.CANCELLED);
+
+                return enrollmentRepository.save(enrollment);
+            } else {
+                throw new RuntimeException("취소 가능 기간이 지났습니다.");
+            }
         }
+        throw new RuntimeException("취소가 완료되지 않았습니다.");
     }
-
-
 }

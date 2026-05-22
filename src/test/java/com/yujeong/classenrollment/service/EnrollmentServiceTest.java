@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -136,7 +137,7 @@ class EnrollmentServiceTest {
         assertEquals(EnrollmentStatus.CONFIRMED, enrollment.getStatus());
     }
 
-    //5. 수강 신청 취소
+    //5. 수강 신청 취소 (취소 기간 초과)
     @Test
     void 신청취소_성공() {
         User user = new User();
@@ -162,6 +163,37 @@ class EnrollmentServiceTest {
 
         //then
         assertEquals(EnrollmentStatus.CANCELLED, cancelled.getStatus());
+    }
+
+    //5. 수강 신청 취소
+    @Test
+    void 신청취소_실패() {
+        User user = new User();
+
+        user.setName("테스트 유저");
+        user.setEmail("test@test.com");
+        User savedUser = userService.saveUser(user);
+
+        Course course = new Course();
+
+        course.setDescription("테스트 설명");
+        course.setStartDate(LocalDate.now());
+        course.setEndDate(LocalDate.now().plusMonths(1));
+        course.setTitle("테스트 강의");
+        course.setMaxCapacity(5);
+        course.setStatus(CourseStatus.OPEN);
+        Course savedCourse = courseService.saveCourse(course);
+
+        //when
+        Enrollment savedEnrollment = enrollmentService.saveEnrollment(savedCourse.getId(), savedUser.getId());
+        Enrollment confirmed = enrollmentService.courseByConfirmed(savedEnrollment.getId()); //결제 완료 상태
+
+        confirmed.setConfirmedAt(LocalDateTime.now().minusDays(8));
+
+        //then
+        assertThrows(RuntimeException.class, () -> {
+            enrollmentService.courseByCancelled(confirmed.getId());
+        });
     }
 
     //6. 수강 목록 조회

@@ -34,4 +34,7 @@ public class Enrollment {
     //상태
     @Enumerated(EnumType.STRING)
     private EnrollmentStatus status;
+
+    //취소 기간 제한
+    private LocalDateTime confirmedAt;
 }
