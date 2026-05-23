@@ -36,8 +36,18 @@ public class EnrollmentController {
         return ResponseEntity.ok(enrollmentService.courseByConfirmed(id));
     }
 
+    //수강 취소
     @PatchMapping("/{id}/cancel")
     public ResponseEntity<Enrollment> getCancel(@PathVariable Long id) {
         return ResponseEntity.ok(enrollmentService.courseByCancelled(id));
+    }
+
+    //페이지네이션
+    @GetMapping("/my/page")
+    public ResponseEntity<Enrollment> getEnrollmentPage(
+            @RequestParam Long userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(enrollmentService.getEnrollmentPage(userId, page, size));
     }
 }

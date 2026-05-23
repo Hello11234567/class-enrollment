@@ -9,6 +9,10 @@ import com.yujeong.classenrollment.repository.EnrollmentRepository;
 import com.yujeong.classenrollment.repository.CourseRepository;
 import com.yujeong.classenrollment.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -100,5 +104,12 @@ public class EnrollmentService {
             }
         }
         throw new RuntimeException("취소가 완료되지 않았습니다.");
+    }
+
+    //페이지네이션
+    public Page<Enrollment> getEnrollmentPage(Long userId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("enrolledAt").descending());
+
+        return enrollmentRepository.findByUserId(userId, pageable);
     }
 }
