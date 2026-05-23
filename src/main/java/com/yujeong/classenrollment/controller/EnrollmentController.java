@@ -3,6 +3,7 @@ package com.yujeong.classenrollment.controller;
 import com.yujeong.classenrollment.entity.Enrollment;
 import com.yujeong.classenrollment.entity.EnrollmentStatus;
 import com.yujeong.classenrollment.service.EnrollmentService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +45,7 @@ public class EnrollmentController {
 
     //페이지네이션
     @GetMapping("/my/page")
-    public ResponseEntity<Enrollment> getEnrollmentPage(
+    public ResponseEntity<Page<Enrollment>> getEnrollmentPage(
             @RequestParam Long userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
