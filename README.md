@@ -50,13 +50,14 @@
 - 페이지네이션: Claude 코드 참고 후 동작 원리 이해하여 적용
 
 ## API 목록 및 예시
-###User
+
+### Users
 | Method | URL | 설명 |
 |--------|-----|------|
 | POST | /users | 유저 생성 |
 | GET | /users/{id} | 유저 조회 |
 
-###Course
+### Course
 | Method | URL | 설명 |
 |--------|-----|------|
 | POST | /courses | 강의 등록 |
@@ -64,7 +65,7 @@
 | GET | /courses/{id} | 강의 상세 조회 |
 | PATCH | /courses/{id}/status | 강의 상태 변경 |
 
-###Enrollment
+### Enrollment
 | Method | URL | 설명 |
 |--------|-----|------|
 | POST | /enrollments | 수강 신청 |
@@ -74,14 +75,14 @@
 | GET | /enrollments/my/page | 수강 목록 페이지네이션 조회 |
 
 ## 데이터 모델 설명
-###users
+### users
 | 컬럼 | 타입 | 설명 |
 |-----|------|-----|
 | id | BIGINT | 기본키 |
 | name | VARCHAR(10) | 이름 |
 | email | VARCHAR(30) | 이메일 |
 
-###course
+### course
 | 컬럼 | 타입 | 설명 |
 |-----|------|-----|
 | id | BIGINT | 기본키 |
@@ -93,7 +94,7 @@
 | end+date | DATE | 종료일 |
 | status | ENUM | DRAFT/OPEN/CLOSED |
 
-###enrollment
+### enrollment
 | 컬럼 | 타입 | 설명 |
 |-----|------|-----|
 | id | BIGINT | 기본키 |
