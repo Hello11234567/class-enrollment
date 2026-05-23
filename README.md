@@ -36,12 +36,18 @@
 - 대기열(waitlist) 기능
 - 강의 별 수강생 목록 조회(크리에이터 전용)
 
+## 선택 구현 완료
+- 수강 취소 시 취소 가능 기간 제한 (결제 후 7일 이내)
+- 신청 내역 페이지네이션 (GET /enrollments/my/page?userId=&page=0&size=10)
+
 ## AI 활용 범위
 - ERD 설계: 직접 설계 후 피드백 및 확인
 - Repository: 직접 작성
 - Service 로직: 직접 설계, 구현 중 막히는 부분 힌트 요청
 - 동시성 제어(findByIdWithLock), 강의 상세 Map 반환: Claude 코드 참고 후 이해하여 적용
 - 테스트 코드: 패턴 배우며 직접 작성
+- 취소 가능 기간 제한: 직접 설계 및 구현, 로직 검토 받음
+- 페이지네이션: Claude 코드 참고 후 동작 원리 이해하여 적용
 
 ## API 목록 및 예시
 ###User
@@ -65,6 +71,7 @@
 | PATCH | /enrollments/{id}/confirm | 결제 확정 |
 | PATCH | /enrollments/{id}/cancel | 수강 취소 |
 | GET | /enrollments/my | 내 수강 목록 조회 |
+| GET | /enrollments/my/page | 수강 목록 페이지네이션 조회 |
 
 ## 데이터 모델 설명
 ###users
